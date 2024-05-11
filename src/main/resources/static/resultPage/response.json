@@ -1,0 +1,1 @@
+{"ignored":["a","b","c"],"error":"No error caught during this execution.","results":{"skipList":{"timeInMs":3,"uniqueWords":2,"totalWords":3,"wordCount":{"d":2,"e":1},"TotalTimeInMs":3},"sequential":{"timeInMs":3,"uniqueWords":2,"totalWords":3,"wordCount":{"d":2,"e":1},"TotalTimeInMs":3}}}

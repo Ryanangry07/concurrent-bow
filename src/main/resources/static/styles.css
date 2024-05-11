@@ -1,0 +1,135 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: #f4f4f9;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,123,255,0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control, .form-check-input, .btn-primary {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.form-check {
+  margin-bottom: 10px; /* 调整选项之间的垂直间距 */
+}
+
+.form-check label {
+  display: flex; /* 使用 Flexbox 布局 */
+  align-items: center; /* 垂直居中对齐 */
+}
+
+.form-check-label {
+  font-size: 16px;
+  margin-left: 5px; /* 调整选项文字与复选框之间的水平间距 */
+}
+
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px; /* 调整按钮与上方元素的垂直间距 */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+textarea {
+  resize: none;
+  margin-top: 10px;
+  width: calc(100% - 20px);
+}
+
+
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.file-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 32px); /* Width of input - button */
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.file-name::after {
+  content: 'Choose File';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.file-name:hover::after {
+  background: #0056b3;
+}
+
+.file-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
