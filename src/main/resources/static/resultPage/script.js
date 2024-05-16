@@ -29,6 +29,7 @@ document.getElementById('loadResults').addEventListener('click', function() {
         });*/
 });
 
+// expired code
 function displayResults(results) {
     const keys = Object.keys(results);
     const columns = keys.map(key => {
@@ -62,7 +63,7 @@ function displayResults2(results) {
     const keys = Object.keys(results);
     const columns = keys.map(key => {
         const value = results[key];
-        if (!value || !value.timeInMs || !value.totalWords || !value.wordCount) {
+        if (!value || !value.algoTimeInMs || !value.totalTimeInMs || !value.totalWords || !value.wordCount) {
             console.error(`Missing data for ${key}`);
             return '';
         }
@@ -71,7 +72,8 @@ function displayResults2(results) {
             <div class="result-column">
                 <button class="toggle-button" aria-expanded="false">${escapeHTML(key)}</button>
                 <div class="result-content" style="display: none;">
-                    <p>Time Taken: ${escapeHTML(value.timeInMs.toString())} ms</p>
+                    <p>Algorithm Time: ${escapeHTML(value.algoTimeInMs.toString())} ms</p>
+                    <p>Total Time Taken: ${escapeHTML(value.totalTimeInMs.toString())} ms</p>
                     <p>Total Words: ${escapeHTML(value.totalWords.toString())}</p>
                     <table>
                         <tr>

@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     document.getElementById('file-upload').addEventListener('change', function () {
         var files = document.getElementById('file-upload').files;
         if (files.length === 0) {
@@ -39,6 +40,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('analyze-btn').addEventListener('click', function() {
+
+        // check user input for analyze method
+
+        const isAnyMethodSelected = document.querySelector('input[name="analysis-method"]:checked') != null;
+        if (!isAnyMethodSelected) {
+            alert('Please select at least one analysis method.');
+            return;
+        }
 
         console.log('testtest1');
         const files = document.getElementById('file-upload').files;

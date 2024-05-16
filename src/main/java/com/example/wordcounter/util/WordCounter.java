@@ -11,7 +11,6 @@ public class WordCounter {
     public static int totalWordsSequential = 0;
     public static AtomicInteger totalWordsHashMap = new AtomicInteger(0);
     public static AtomicInteger totalWordsSkipList = new AtomicInteger(0);
-    public static long endAlgorithmTime = 0;
 
     public static void countWordsSequential(String content, String ignoreOption, List<String> customIgnoreWords, Map<String, Integer> finalWordCounts) {
 

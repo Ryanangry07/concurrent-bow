@@ -15,7 +15,7 @@ public class ResultPresenter {
      * @param wordCounts A map of words to their corresponding counts.
      * @param startTime  The start time in milliseconds used to calculate the total execution time.
      */
-    public static Map<String, Object> generateResults(Map<String, Integer> wordCounts, long startTime, long endAlgorithmTime, Integer totalWords) {
+    public static Map<String, Object> generateResults(Map<String, Integer> wordCounts, long startTime, long startAlgorithmTime, long endAlgorithmTime, Integer totalWords) {
         // convert and sort final word counts to list
         List<Map.Entry<String, Integer>> entries = getEntries(wordCounts);
 
@@ -34,8 +34,8 @@ public class ResultPresenter {
         mapOutput.put("totalWords", totalWords);
         mapOutput.put("wordCount", sortedMap);
         mapOutput.put("uniqueWords", sortedMap.size());
-        mapOutput.put("timeInMs", endAlgorithmTime - startTime);
-        mapOutput.put("TotalTimeInMs", System.currentTimeMillis() - startTime);
+        mapOutput.put("algoTimeInMs", endAlgorithmTime - startAlgorithmTime);
+        mapOutput.put("totalTimeInMs", System.currentTimeMillis() - startTime);
 
         return mapOutput;
     }

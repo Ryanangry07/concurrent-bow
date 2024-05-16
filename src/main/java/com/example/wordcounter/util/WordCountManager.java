@@ -17,6 +17,7 @@ public class WordCountManager {
     public static final String CONCURRENT_SKIP_LIST = "concurrent_skip_list";
     private final File[] files;
     private long startTime;
+    private long startAlgorithmTime;
 
     /**
      * Constructor to initialize the WordCountManager with a set of files.
@@ -48,8 +49,8 @@ public class WordCountManager {
     }
 
 
-    public WordCountResult countWordsSequential(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException{
-        startTime = System.currentTimeMillis();// declare HashMap to store words and their occurrences
+    public WordCountResult countWordsSequential(String ignoreOption, List<String> customIgnoreWords){
+        startAlgorithmTime = System.currentTimeMillis();
         HashMap<String, Integer> finalWordCounts = new HashMap<>();
         for (File file : files) {
             String fileContent = FileUtils.readFileContent(file); // Implement this method to read file content
@@ -70,7 +71,7 @@ public class WordCountManager {
      * @throws RuntimeException     If an error occurs during the processing of any file.
      */
     public WordCountResult countWordsHashMap(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
-        startTime = System.currentTimeMillis();
+        startAlgorithmTime = System.currentTimeMillis();
         // Thread-safe map to store final counts
         Map<String, Integer> finalWordCounts = new ConcurrentHashMap<>();
 
@@ -114,7 +115,7 @@ public class WordCountManager {
 
 
     public WordCountResult countWordsSkipList(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
-        startTime = System.currentTimeMillis();
+        startAlgorithmTime = System.currentTimeMillis();
         // Thread-safe map to store final counts
         Map<String, Integer> finalWordCounts = new ConcurrentHashMap<>();
         // Thread pool creation
@@ -175,7 +176,7 @@ public class WordCountManager {
         }
 
         // Generate the results using ResultPresenter
-        Map<String, Object> mapOutput = ResultPresenter.generateResults(finalWordCounts, startTime, endAlgorithmTime, totalWords);
+        Map<String, Object> mapOutput = ResultPresenter.generateResults(finalWordCounts, startTime, startAlgorithmTime, endAlgorithmTime, totalWords);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResults = gson.toJson(mapOutput);
 
