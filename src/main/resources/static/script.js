@@ -79,24 +79,35 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('customIgnoreWords', words);
         }
 
+        console.log('form-data: ');
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]);
+        }
+
         fetch('/api/wordcount', {
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
-            .then(data => {
-                //displayResults(data);
-                //sessionStorage.setItem('analysisResults', JSON.stringify(data.jsonResults));
-                sessionStorage.setItem('analysisResults', JSON.stringify(data));
-                console.log("index page: " + data.jsonResults);
-            })
-            .catch(error => {
-                console.error('Error processing files:', error);
-                document.getElementById('results-display').innerHTML = `<p>Error loading results.</p>`;
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            //displayResults(data);
+            //sessionStorage.setItem('analysisResults', JSON.stringify(data.jsonResults));
+            // sessionStorage.setItem('analysisResults', JSON.stringify(data));
+            // console.log("index page: " + data.jsonResults);
+            console.log("index page: " + response);
+            window.location.href='../resultPage/results.html';
+        })
+        .catch(error => {
+            console.error('Error processing files:', error);
+            // document.getElementById('results-display').innerHTML = `<p>Error loading results.</p>`;
+            alert('Error loading results.')
+            return;
+        });
 
         console.log('testtest');
-        window.location.href='../resultPage/results.html';
+        // window.location.href='../resultPage/results.html';
 
         /*fetch('/api/wordcount')
             .then(response => {
