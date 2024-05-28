@@ -15,28 +15,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     document.getElementById('file-upload').addEventListener('change', function () {
-        var files = document.getElementById('file-upload').files;
-        if (files.length === 0) {
-            console.error('No files selected.');
-            return;
+        const files = document.getElementById('file-upload').files;
+        const fileNames = [];
+        for (const file of files) {
+            fileNames.push(file.name);
         }
-        var fileName = files[0].name;
-        //var fileName = document.getElementById('file-upload').files[0].name;
-        //document.querySelector('.file-name').textContent = fileName;
-        if (files.length === 0) {
-            console.error('No files selected.');
-            return;
-        }
-        // Loop through each selected file（Sequential
-        /*Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                const text = event.target.result;
-                // Process the text data as needed
-                processData(text);
-            };
-            reader.readAsText(file);
-        });*/
+        console.log('Selected files:', fileNames);
     });
 
     document.getElementById('analyze-btn').addEventListener('click', function() {
