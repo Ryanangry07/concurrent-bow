@@ -1,10 +1,7 @@
 package com.example.wordcounter.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ResultPresenter {
     /**
@@ -30,35 +27,19 @@ public class ResultPresenter {
 
         // create a JSON using Gson
         Map<String, Object> mapOutput = new HashMap<>();
-
-        mapOutput.put("totalWords", totalWords);
+        mapOutput.put("totalWords", totalWordCount);
         mapOutput.put("wordCount", sortedMap);
         mapOutput.put("uniqueWords", sortedMap.size());
         mapOutput.put("algoTimeInMs", endAlgorithmTime - startAlgorithmTime);
-        mapOutput.put("totalTimeInMs", System.currentTimeMillis() - startTime);
+        mapOutput.put("totalTimeInMs", System.currentTimeMillis() - startAlgorithmTime);
 
         return mapOutput;
     }
 
-    public String generateResponseJson(){
-        // create a JSON using Gson
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Map<String, Object> mapOutput = new HashMap<>();
-/*
-        /*mapOutput.put("results", totalWords);
-        mapOutput.put("wordCount", sortedMap);
-        mapOutput.put("uniqueWords", sortedMap.size());
-        mapOutput.put("timeInMs", endAlgorithmTime - startTime);
-        mapOutput.put("TotalTimeInMs", System.currentTimeMillis() - startTime);*/
-        String jsonOutput = gson.toJson(mapOutput);
-
-        return jsonOutput;
-    }
 
     /**
      * Sorts the entries of a word count map first by the count in descending order, and then by the word
      * in alphabetical order if the counts are the same. This method is used to prepare data for display
-     * and further processing in {@link #displayResults(Map, long)}.
      *
      * @param wordCounts The map of words with their counts to be sorted.
      * @return A list of entries sorted according to the specified criteria.

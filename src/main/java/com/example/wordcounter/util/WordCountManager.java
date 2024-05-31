@@ -16,8 +16,7 @@ public class WordCountManager {
     public static final String CONCURRENT_HASHMAP = "concurrent_hashmap";
     public static final String CONCURRENT_SKIP_LIST = "concurrent_skip_list";
     private final File[] files;
-    private long startTime;
-    private long startAlgorithmTime;
+    private final long startTime;
 
     public WordCountManager(File[] files) {
         this.files = files;
@@ -44,16 +43,17 @@ public class WordCountManager {
     }
 
     public WordCountResult countWordsSequential(String ignoreOption, List<String> customIgnoreWords) {
-        startAlgorithmTime = System.currentTimeMillis();
+        long startSequentialTime = System.currentTimeMillis();
         HashMap<String, Integer> finalWordCounts = new HashMap<>();
         for (File file : files) {
             FileUtils.readFileContent(file, line -> WordCounter.countWordsSequential(line, ignoreOption, customIgnoreWords, finalWordCounts));
         }
-        return endAlgorithm(SEQUENTIAL, finalWordCounts);
+        long endSequentialTime = System.currentTimeMillis();
+        return endAlgorithm(SEQUENTIAL, finalWordCounts, startSequentialTime, endSequentialTime);
     }
 
     public WordCountResult countWordsHashMap(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
-        startAlgorithmTime = System.currentTimeMillis();
+        long startConcurrentHashMapTime = System.currentTimeMillis();
         Map<String, Integer> finalWordCounts = new ConcurrentHashMap<>();
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
@@ -82,11 +82,12 @@ public class WordCountManager {
             }
         }
 
-        return endAlgorithm(CONCURRENT_HASHMAP, finalWordCounts);
+        long endConcurrentHashMapTime = System.currentTimeMillis();
+        return endAlgorithm(CONCURRENT_HASHMAP, finalWordCounts, startConcurrentHashMapTime, endConcurrentHashMapTime);
     }
 
     public WordCountResult countWordsSkipList(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
-        startAlgorithmTime = System.currentTimeMillis();
+        long startConcurrentSkipListTime = System.currentTimeMillis();
         Map<String, Integer> finalWordCounts = new ConcurrentHashMap<>();
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
@@ -105,11 +106,11 @@ public class WordCountManager {
 
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.HOURS);
-        return endAlgorithm(CONCURRENT_SKIP_LIST, finalWordCounts);
+        long endConcurrentSkipListTime = System.currentTimeMillis();
+        return endAlgorithm(CONCURRENT_SKIP_LIST, finalWordCounts, startConcurrentSkipListTime, endConcurrentSkipListTime);
     }
 
-    public WordCountResult endAlgorithm(String algorithm, Map<String, Integer> finalWordCounts) {
-        long endAlgorithmTime = System.currentTimeMillis();
+    public WordCountResult endAlgorithm(String algorithm, Map<String, Integer> finalWordCounts, long startAlgorithmTime, long endAlgorithmTime) {
         int totalWords = 0;
         if (SEQUENTIAL.equals(algorithm)) {
             totalWords = WordCounter.totalWordsSequential;
@@ -126,7 +127,7 @@ public class WordCountManager {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResults = gson.toJson(mapOutput);
 
-        return new WordCountResult(mapOutput, jsonResults, totalWords, endAlgorithmTime - startTime);
+        return new WordCountResult(mapOutput, jsonResults, totalWords, endAlgorithmTime - startAlgorithmTime);
     }
 
     public long getStartTime() {
