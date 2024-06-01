@@ -26,7 +26,7 @@ public class WordCounter {
         for (String line : lines) {
             if (!line.isEmpty()) {
                 // todo: test regex
-                line = line.replaceAll("\\b\\d+\\b", "")
+                line = line.replaceAll("\\d+", "")
                         .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                         .replaceAll("--+", " ");
 
@@ -69,7 +69,7 @@ public class WordCounter {
         for (String line : lines) {
             if (!line.isEmpty()) {
                 // todo: test regex
-                line = line.replaceAll("\\b\\d+\\b", "")
+                line = line.replaceAll("\\d+", "")
                         .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                         .replaceAll("--+", " ");
 
@@ -100,7 +100,7 @@ public class WordCounter {
         }else{
             ignored = DEFAULT_IGNORE;
         }
-        String[] words = content.replaceAll("\\b\\d+\\b", "")
+        String[] words = content.replaceAll("\\d+", "")
                 .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
