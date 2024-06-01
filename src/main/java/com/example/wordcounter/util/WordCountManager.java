@@ -88,7 +88,7 @@ public class WordCountManager {
 
     public WordCountResult countWordsSkipList(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
         long startConcurrentSkipListTime = System.currentTimeMillis();
-        Map<String, Integer> finalWordCounts = new ConcurrentHashMap<>();
+        Map<String, Integer> finalWordCounts = new ConcurrentSkipListMap<>();
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
         try {
