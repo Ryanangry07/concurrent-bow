@@ -4,17 +4,25 @@ body, html {
   width: 100%;
   height: 100%;
   font-family: 'Roboto', sans-serif;
-  background: #f4f4f9;
+  background: #5aa9fd;
 }
-
+.wrapper {
+  display: flex;
+  justify-content: center; /* 在主轴上水平居中 */
+  align-items: center; /* 在交叉轴上垂直居中 */
+  height: 100vh; /* 使用视口高度作为高度 */
+}
 .container {
+  
   width: 90%;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 700px;
+  margin: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  background: #f4f5f6;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
 .header {
@@ -24,7 +32,7 @@ body, html {
 
 .logo {
   font-family: 'Nunito', sans-serif;
-  font-size: 2rem;
+  font-size: 3rem;
   background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,123,255,0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,16 +48,36 @@ body, html {
   color: #333;
 }
 
-.form-control, .form-check-input, .btn-primary {
+.btn-primary {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.form-control {
+  width: 70%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-left: 25px;
 }
 
 .form-check {
-  margin-bottom: 10px; /* 调整选项之间的垂直间距 */
+  display: flex;
+  align-items: flex-start; 
+  margin-bottom: 10px; 
+  margin-top: 10px;
+}
+
+.form-check-input {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
 }
 
 .form-check label {
@@ -59,7 +87,15 @@ body, html {
 
 .form-check-label {
   font-size: 16px;
-  margin-left: 5px; /* 调整选项文字与复选框之间的水平间距 */
+}
+
+.enter-form-control {
+  padding: 10px;
+  margin-left: 25px; /* 左边距离 20px */
+  width: 70%;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .form-check-input:checked {
