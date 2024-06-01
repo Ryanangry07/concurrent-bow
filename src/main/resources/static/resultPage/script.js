@@ -1,4 +1,7 @@
-document.getElementById('loadResults').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    loadResults(); 
+});
+function loadResults() {
     fetch('/api/response.json')
         .then(response => response.json())
         .then(data => {
@@ -11,23 +14,7 @@ document.getElementById('loadResults').addEventListener('click', function() {
             console.error('Error fetching data: ', error);
             document.getElementById('errorSection').innerHTML = `<p>Error loading results.</p>`;
         });
-
-    /*fetch('/api/wordcount', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            displayResults(data);
-            //sessionStorage.setItem('analysisResults', JSON.stringify(data.jsonResults));
-            sessionStorage.setItem('analysisResults', JSON.stringify(data));
-            console.log("index page: " + data.jsonResults);
-        })
-        .catch(error => {
-            console.error('Error processing files:', error);
-            document.getElementById('results-display').innerHTML = `<p>Error loading results.</p>`;
-        });*/
-});
+}
 
 // expired code
 function displayResults(results) {
