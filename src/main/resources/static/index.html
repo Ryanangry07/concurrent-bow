@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="wrapper">
 <div class="container">
     <div class="header">
         <h1 class="logo">WORDTALLY</h1>
@@ -14,26 +15,28 @@
     </div>
     <form id="word-tally-form" class="card p-4 shadow">
         <div class="mb-3">
-            <label for="file-upload" class="form-label">Choose your text file(s):</label>
+            <label for="file-upload" class="form-label">Step 1: Upload your text file(s):</label>
             <div class="input-group">
+                <!-- <label for="file-upload" class="file-label">Upload File</label> -->
                 <input type="file" class="form-control" id="file-upload" name="file-upload" accept=".txt" multiple>
-                <label for="file-upload" class="file-label">Choose File</label>
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Ignore words:</label>
+            <label class="form-label">Step 2: Decide the words you want to ignore:</label>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="ignore-option" value="default" id="default-ignore" checked>
-                <label class="form-check-label" for="default-ignore">Use default ignore words</label>
+                <label class="form-check-label" for="default-ignore">
+                    Default: the, a, with, in, and, of, for, is, to, an
+                </label>
             </div>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="ignore-option" value="custom" id="custom-ignore">
-                <label class="form-check-label" for="custom-ignore">Enter custom ignore words</label>
+                <label class="form-check-label" for="custom-ignore">Customized:</label>
             </div>
-            <textarea class="form-control" id="custom-ignore-words" name="custom-ignore-words" rows="3" disabled placeholder="Enter words separated by commas..."></textarea>
+            <textarea class="enter-form-control" id="custom-ignore-words" name="custom-ignore-words" rows="3" disabled placeholder="Enter words separated by commas..."></textarea>
         </div>
         <div class="mb-3">
-            <label class="form-label">Analysis Methods:</label>
+            <label class="form-label">Step 3: Select one or more analysis methods:</label>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="method1" name="analysis-method" value="SEQUENTIAL">
                 <label for="method1" class="form-check-label">1. Sequential</label>
@@ -52,6 +55,7 @@
 
 
     </form>
+</div>
 </div>
 <script src="script.js"></script>
 </body>
