@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loading-overlay">
+        <div id="loading-message">Analyzing...</div>
+    </div>
     <div class="wrapper">
 <div class="container">
     <div class="header">
@@ -14,15 +17,17 @@
         <p class="tagline">Explore Text Frequencies with Ease</p>
     </div>
     <form id="word-tally-form" class="card p-4 shadow">
-        <div class="mb-3">
+        <div id="step1" class="mb-3">
             <label for="file-upload" class="form-label">Step 1: Upload your text file(s):</label>
             <div class="input-group">
                 <!-- <label for="file-upload" class="file-label">Upload File</label> -->
                 <input type="file" class="form-control" id="file-upload" name="file-upload" accept=".txt" multiple>
             </div>
         </div>
-        <div class="mb-3">
+        <br>
+        <div id="step2" class="mb-3">
             <label class="form-label">Step 2: Decide the words you want to ignore:</label>
+            <div class="center">
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="ignore-option" value="default" id="default-ignore" checked>
                 <label class="form-check-label" for="default-ignore">
@@ -34,8 +39,10 @@
                 <label class="form-check-label" for="custom-ignore">Customized:</label>
             </div>
             <textarea class="enter-form-control" id="custom-ignore-words" name="custom-ignore-words" rows="3" disabled placeholder="Enter words separated by commas..."></textarea>
+            </div>
         </div>
-        <div class="mb-3">
+        <br>
+        <div id="step3" class="mb-3">
             <label class="form-label">Step 3: Select one or more analysis methods:</label>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="method1" name="analysis-method" value="SEQUENTIAL">

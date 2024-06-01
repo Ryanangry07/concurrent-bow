@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const customIgnoreInput = document.getElementById('custom-ignore-words');
     const ignoreOptions = document.querySelectorAll('input[name="ignore-option"]');
-
+    const loadingOverlay = document.getElementById('loading-overlay');
+    loadingOverlay.style.display = 'none';
+    
     ignoreOptions.forEach(option => {
         option.addEventListener('change', function () {
             if (this.value === 'custom') {
@@ -48,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
         //const customIgnoreWords = document.getElementById('custom-ignore-words').value.split(',').map(word => word.trim());
         const analysisMethod = Array.from(document.querySelectorAll('input[name="analysis-method"]:checked'))
             .map(input => input.value);
+        
+        loadingOverlay.style.display = 'flex';
 
         const formData = new FormData();
         for (const file of files) {
@@ -81,11 +85,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // sessionStorage.setItem('analysisResults', JSON.stringify(data));
             // console.log("index page: " + data.jsonResults);
             console.log("index page: " + response);
+            loadingOverlay.style.display = 'none';
             window.location.href='../resultPage/results.html';
         })
         .catch(error => {
             console.error('Error processing files:', error);
             // document.getElementById('results-display').innerHTML = `<p>Error loading results.</p>`;
+            loadingOverlay.style.display = 'none';
             alert('Error loading results.')
             return;
         });
