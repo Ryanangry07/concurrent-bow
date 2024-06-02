@@ -28,15 +28,15 @@ public class WordCountManager {
         switch (analysisMethod) {
             case SEQUENTIAL:
                 result = countWordsSequential(ignoreOption, customIgnoreWords);
-                resultsMap.put("sequential", result.getMapResults());
+                resultsMap.put("Sequential", result.getMapResults());
                 break;
             case CONCURRENT_HASHMAP:
                 result = countWordsHashMap(ignoreOption, customIgnoreWords);
-                resultsMap.put("concurrentHashMap", result.getMapResults());
+                resultsMap.put("Concurrent_Hash_Map", result.getMapResults());
                 break;
             case CONCURRENT_SKIP_LIST:
                 result = countWordsSkipList(ignoreOption, customIgnoreWords);
-                resultsMap.put("skipList", result.getMapResults());
+                resultsMap.put("Concurrent_Skip_List", result.getMapResults());
                 break;
         }
         return result;

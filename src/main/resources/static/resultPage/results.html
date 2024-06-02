@@ -8,11 +8,18 @@
 </head>
 <body>
 <div class="container">
-    <h1>Word Frequency Analysis Results</h1>
-    <!-- <button id="loadResults">Load Results</button> -->
-    <div id="results"></div>
-    <div id="ignoredWords"></div>
-    <div id="errorSection"></div>
+    <div class="header">
+        <h1 class="logo">Word Frequency Analysis Results</h1>
+        <p class="tagline">Click the buttons below to view the results</p>
+        <button id="loadAllResults">Load all results at once</button>
+        <button id="loadResultsSparately">Load results separately</button>
+    </div>
+    <div class="wapper">
+        <div id="errorSection"></div>
+        <div id="ignoredWords"></div>
+        <div id="results"></div>    
+    </div>
+    
     <div id="wordCloud"></div>
 </div>
 <script src="https://d3js.org/d3.v6.min.js"></script>
