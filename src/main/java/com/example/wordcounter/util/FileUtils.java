@@ -35,12 +35,12 @@ public class FileUtils {
     }
 
     public static void readFileContent(FileSplitter.FileSlice fileSlice, LineProcessor lineProcessor) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(fileSlice.getFile().toPath()), StandardCharsets.UTF_8))) {
-            reader.skip(fileSlice.getStart());
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(fileSlice.file().toPath()), StandardCharsets.UTF_8))) {
+            reader.skip(fileSlice.start());
 
             char[] buffer = new char[1024 * 16]; // 16KB buffer
             long bytesRead = 0;
-            long bytesToRead = fileSlice.getEnd() - fileSlice.getStart();
+            long bytesToRead = fileSlice.end() - fileSlice.start();
             StringBuilder lineBuilder = new StringBuilder();
 
             while (bytesRead < bytesToRead) {
