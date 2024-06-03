@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -23,7 +24,7 @@ public class WordCountManager {
         this.startTime = System.currentTimeMillis();
     }
 
-    public WordCountResult countWords(AnalysisMethod analysisMethod, String ignoreOption, List<String> customIgnoreWords, Map<String, Object> resultsMap) throws InterruptedException {
+    public WordCountResult countWords(AnalysisMethod analysisMethod, String ignoreOption, List<String> customIgnoreWords, Map<String, Object> resultsMap) throws InterruptedException, IOException {
         WordCountResult result = null;
         switch (analysisMethod) {
             case SEQUENTIAL:
@@ -42,11 +43,12 @@ public class WordCountManager {
         return result;
     }
 
-    public WordCountResult countWordsSequential(String ignoreOption, List<String> customIgnoreWords) {
+    public WordCountResult countWordsSequential(String ignoreOption, List<String> customIgnoreWords) throws IOException {
         long startSequentialTime = System.currentTimeMillis();
         HashMap<String, Integer> finalWordCounts = new HashMap<>();
-        for (File file : files) {
-            FileUtils.readFileContent(file, line -> WordCounter.countWordsSequential(line, ignoreOption, customIgnoreWords, finalWordCounts));
+        List<FileSplitter.FileSlice> fileSlices = FileSplitter.splitFiles(files);
+        for (FileSplitter.FileSlice fs : fileSlices) {
+            FileUtils.readFileContent(fs, line -> WordCounter.countWordsSequential(line, ignoreOption, customIgnoreWords, finalWordCounts));
         }
         long endSequentialTime = System.currentTimeMillis();
         return endAlgorithm(SEQUENTIAL, finalWordCounts, startSequentialTime, endSequentialTime);
@@ -59,9 +61,10 @@ public class WordCountManager {
 
         try {
             List<Future<?>> futures = new ArrayList<>();
-            for (File file : files) {
+            List<FileSplitter.FileSlice> fileSlices = FileSplitter.splitFiles(files);
+            for (FileSplitter.FileSlice fs : fileSlices) {
                 futures.add(executor.submit(() -> {
-                    FileUtils.readFileContent(file, line -> {
+                    FileUtils.readFileContent(fs, line -> {
                         Map<String, Integer> counts = WordCounter.countWordsHashMap(line, ignoreOption, customIgnoreWords);
                         counts.forEach((key, value) -> finalWordCounts.merge(key, value, Integer::sum));
                     });
@@ -75,6 +78,8 @@ public class WordCountManager {
                     throw new RuntimeException("Error occurred while processing files.", e.getCause());
                 }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             executor.shutdown();
             if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {
@@ -86,15 +91,16 @@ public class WordCountManager {
         return endAlgorithm(CONCURRENT_HASHMAP, finalWordCounts, startConcurrentHashMapTime, endConcurrentHashMapTime);
     }
 
-    public WordCountResult countWordsSkipList(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException {
+    public WordCountResult countWordsSkipList(String ignoreOption, List<String> customIgnoreWords) throws InterruptedException, IOException {
         long startConcurrentSkipListTime = System.currentTimeMillis();
         Map<String, Integer> finalWordCounts = new ConcurrentSkipListMap<>();
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
         try {
-            for (File file : files) {
+            List<FileSplitter.FileSlice> fileSlices = FileSplitter.splitFiles(files);
+            for (FileSplitter.FileSlice fs : fileSlices) {
                 executor.submit(() -> {
-                    FileUtils.readFileContent(file, line -> WordCounter.countWordsSkipList(line, ignoreOption, customIgnoreWords, finalWordCounts));
+                    FileUtils.readFileContent(fs, line -> WordCounter.countWordsSkipList(line, ignoreOption, customIgnoreWords, finalWordCounts));
                 });
             }
         } finally {
