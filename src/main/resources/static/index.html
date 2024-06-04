@@ -13,7 +13,7 @@
     <div class="wrapper">
 <div class="container">
     <div class="header">
-        <h1 class="logo">WORDTALLY</h1>
+        <h1 class="logo" title="Count and display frequencies of words in large text files using the sequential and 2 concurrent Bag-of-words (BoW) implementations.">WORDTALLY</h1>
         <p class="tagline">Explore Text Frequencies with Ease</p>
     </div>
     <form id="word-tally-form" class="card p-4 shadow">
@@ -50,11 +50,11 @@
             </div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="method3" name="analysis-method" value="CONCURRENT_SKIP_LIST">
-                <label for="method3" class="form-check-label">2. Concurrent Skip List</label>
+                <label for="method3" class="form-check-label" title="Processing a single large file and multiple large/small files is much faster than 1. Sequential algorithm, but slower than 3. Concurrent Hash Map">2. Concurrent Skip List</label>
             </div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="method2" name="analysis-method" value="CONCURRENT_HASHMAP">
-                <label for="method2" class="form-check-label">3. Concurrent Hash Map</label>
+                <label for="method2" class="form-check-label" title="Processing a single large file and multiple large/small files is much faster than 1. Sequential algorithm, and faster than 2. Concurrent Skip List">3. Concurrent Hash Map</label>
             </div>
         </div>
         <button id="analyze-btn" type="button" class="btn btn-primary" >Analyse Text</button>
