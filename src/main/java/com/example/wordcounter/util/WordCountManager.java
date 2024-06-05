@@ -10,7 +10,15 @@ import java.util.concurrent.*;
 
 public class WordCountManager {
 
-    public static final HashSet<String> DEFAULT_IGNORE = new HashSet<>(Arrays.asList("the", "and", "a", "an", "of", "in", "for", "is", "to", "with"));
+    public static final HashSet<String> DEFAULT_IGNORE = new HashSet<>(Arrays.asList(
+            "the", "and", "a", "an", "of", "in", "for", "is", "to", "with",
+            "that", "i", "was", "he", "it", "had", "her", "she", "you", "his",
+            "not", "as", "but", "at", "which", "on", "be", "him", "have", "my",
+            "me", "by", "from", "this", "they", "all", "so", "were", "would",
+            "who", "one", "what", "no", "when", "if", "them", "or", "been",
+            "we", "there", "their", "are", "could", "more", "did", "like",
+            "do", "your", "out", "about", "will", "any", "than", "some", "then"
+    ));
     public static final String CUSTOM_IGNORED = "custom";
 
     public static final String SEQUENTIAL = "sequential";

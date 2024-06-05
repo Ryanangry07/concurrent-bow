@@ -17,11 +17,10 @@ public class WordCounter {
 
     public static void countWordsSequential(String content, String ignoreOption, List<String> customIgnoreWords, Map<String, Integer> finalWordCounts) {
 
-//        Set<String> ignored = new ConcurrentReadFilesInside("ignored").getAllUniqueWords();
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
 
@@ -43,8 +42,9 @@ public class WordCounter {
                 }
             }
         }
-    }
 
+
+    }
 
 
     /**
@@ -56,14 +56,12 @@ public class WordCounter {
      * @return A map of words to their corresponding counts.
      */
     public static Map<String, Integer> countWordsHashMap(String content, String ignoreOption, List<String> customIgnoreWords) {
-        // Thread-safe map to store word counts
         Map<String, Integer> wordCount = new ConcurrentHashMap<>();
 
-//        Set<String> ignored = new ConcurrentReadFilesInside("ignored").getAllUniqueWords();
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
 
@@ -91,19 +89,22 @@ public class WordCounter {
                 }
             }
         }
+
+
         return wordCount;
     }
 
     public static Map<String, Integer> countWordsSkipList(String content, String ignoreOption, List<String> customIgnoreWords, Map<String, Integer> finalWordCounts) {
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
         String[] words = content.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
+
         for (String word : words) {
             word = word.toLowerCase();
             if (!word.isEmpty() && !ignored.contains(word)) {
