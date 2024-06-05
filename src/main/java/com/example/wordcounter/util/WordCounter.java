@@ -14,35 +14,28 @@ public class WordCounter {
 
     public static void countWordsSequential(String content, String ignoreOption, List<String> customIgnoreWords, Map<String, Integer> finalWordCounts) {
 
-//        Set<String> ignored = new ConcurrentReadFilesInside("ignored").getAllUniqueWords();
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
 
-        String[] lines = content.split("\\r?\\n");
-        for (String line : lines) {
-            if (!line.isEmpty()) {
-                // todo: test regex
-                line = line.replaceAll("\\d+", "")
-                        .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
-                        .replaceAll("--+", " ");
+        String[] words = content.replaceAll("\\d+", "")
+                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+                .replaceAll("--+", " ")
+                .split("\\s+");
 
-                String[] words = line.split("\\s+");
-
-                for (String word : words) {
-                    word = word.toLowerCase();
-                    if (!word.isEmpty() && !ignored.contains(word)) {
-                        totalWordsSequential++;
-                        finalWordCounts.put(word, finalWordCounts.getOrDefault(word, 0) + 1);
-                    }
-                }
+        for (String word : words) {
+            word = word.toLowerCase();
+            if (!word.isEmpty() && !ignored.contains(word)) {
+                totalWordsSequential++;
+                finalWordCounts.put(word, finalWordCounts.getOrDefault(word, 0) + 1);
             }
         }
-    }
 
+
+    }
 
 
     /**
@@ -54,56 +47,50 @@ public class WordCounter {
      * @return A map of words to their corresponding counts.
      */
     public static Map<String, Integer> countWordsHashMap(String content, String ignoreOption, List<String> customIgnoreWords) {
-        // Thread-safe map to store word counts
         Map<String, Integer> wordCount = new ConcurrentHashMap<>();
 
-//        Set<String> ignored = new ConcurrentReadFilesInside("ignored").getAllUniqueWords();
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
 
-        String[] lines = content.split("\\r?\\n");
-        for (String line : lines) {
-            if (!line.isEmpty()) {
-                // todo: test regex
-                line = line.replaceAll("\\d+", "")
-                        .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
-                        .replaceAll("--+", " ");
+        String[] words = content.replaceAll("\\d+", "")
+                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+                .replaceAll("--+", " ")
+                .split("\\s+");
 
-                String[] words = line.split("\\s+");
+        for (String word : words) {
+            word = word.toLowerCase();
 
-                for (String word : words) {
-                    word = word.toLowerCase();
+            // keep the "\\u0027" unicode because browsers can parse it into an apostrophe
+            // String cleanedWord = word.toLowerCase().replace("\\u0027", "'");
 
-                    // keep the "\\u0027" unicode because browsers can parse it into an apostrophe
-                    // String cleanedWord = word.toLowerCase().replace("\\u0027", "'");
-
-                    if (!word.isEmpty() && !ignored.contains(word)) {
-                        // Increment total word count for each word processed
-                        totalWordsHashMap.incrementAndGet();
-                        // Merge word count into the map
-                        wordCount.merge(word, 1, Integer::sum);
-                    }
-                }
+            if (!word.isEmpty() && !ignored.contains(word)) {
+                // Increment total word count for each word processed
+                totalWordsHashMap.incrementAndGet();
+                // Merge word count into the map
+                wordCount.merge(word, 1, Integer::sum);
             }
         }
+
+
         return wordCount;
     }
 
     public static Map<String, Integer> countWordsSkipList(String content, String ignoreOption, List<String> customIgnoreWords, Map<String, Integer> finalWordCounts) {
         Set<String> ignored;
-        if(CUSTOM_IGNORED.equals(ignoreOption)){
+        if (CUSTOM_IGNORED.equals(ignoreOption)) {
             ignored = new HashSet<>(customIgnoreWords);
-        }else{
+        } else {
             ignored = DEFAULT_IGNORE;
         }
         String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
+
         for (String word : words) {
             word = word.toLowerCase();
             if (!word.isEmpty() && !ignored.contains(word)) {
