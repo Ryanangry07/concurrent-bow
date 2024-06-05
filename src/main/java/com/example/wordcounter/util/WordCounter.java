@@ -1,6 +1,9 @@
 package com.example.wordcounter.util;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,8 +29,7 @@ public class WordCounter {
         for (String line : lines) {
             if (!line.isEmpty()) {
                 // todo: test regex
-                line = line.replaceAll("\\d+", "")
-                        .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+                line = line.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                         .replaceAll("--+", " ");
 
                 String[] words = line.split("\\s+");
@@ -69,9 +71,8 @@ public class WordCounter {
         for (String line : lines) {
             if (!line.isEmpty()) {
                 // todo: test regex
-                line = line.replaceAll("\\d+", "")
-                        .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
-                        .replaceAll("--+", " ");
+                line = line.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+                .replaceAll("--+", " ");
 
                 String[] words = line.split("\\s+");
 
@@ -100,8 +101,7 @@ public class WordCounter {
         }else{
             ignored = DEFAULT_IGNORE;
         }
-        String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+        String[] words = content.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
         for (String word : words) {

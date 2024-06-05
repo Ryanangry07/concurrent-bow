@@ -2,10 +2,13 @@ document.getElementById('loadAllResults').addEventListener('click', function() {
     fetch('/api/response.json')
         .then(response => response.json())
         .then(data => {
-            displayResults2(data.results);
+            const sortedResults = sortWordCounts(data.results);
+            console.log(sortedResults);
+            displayResults2(sortedResults);
             displayIgnoredWords(data.ignored);
             displayError(data.error);
             // drawWordCloud(data.results.sequential.wordCount);
+
             document.getElementById('loadAllResults').disabled = true;
             document.getElementById('loadAllResults').classList.add('disabled-button');
 
@@ -34,11 +37,25 @@ document.getElementById('loadAllResults').addEventListener('click', function() {
         });*/
 });
 
+function sortWordCounts(results) {
+    let sortedResults = [];
+    for (let key in results) {
+        let algorithmData = { ...results[key] };
+        let wordCountArray = Object.entries(algorithmData.wordCount)
+            .sort((a, b) => b[1] - a[1]);
+        algorithmData.wordCount = wordCountArray;
+        sortedResults.push({ key, value: algorithmData });
+    }
+    return sortedResults;
+}
+
 document.getElementById('loadResultsSparately').addEventListener('click', function() {
     fetch('/api/response.json')
         .then(response => response.json())
         .then(data => {
-            displayResults3(data.results);
+            const sortedResults = sortWordCounts(data.results);
+            console.log(sortedResults)
+            displayResults3(sortedResults);
             displayIgnoredWords(data.ignored);
             displayError(data.error);
             // drawWordCloud(data.results.sequential.wordCount);
@@ -56,6 +73,7 @@ document.getElementById('loadResultsSparately').addEventListener('click', functi
 // expired code
 function displayResults(results) {
     const keys = Object.keys(results);
+    
     const columns = keys.map(key => {
         const value = results[key];
         let html = `
@@ -84,9 +102,9 @@ function displayResults(results) {
 
 
 function displayResults2(results) {
-    const keys = Object.keys(results);
-    const columns = keys.map(key => {
-        const value = results[key];
+    const columns = results.map(item => {
+        const key = item.key;
+        const value = item.value;
         if (!value || !value.algoTimeInMs || !value.totalTimeInMs || !value.totalWords || !value.wordCount) {
             console.error(`Missing data for ${key}`);
             return '';
@@ -105,9 +123,9 @@ function displayResults2(results) {
                             <th>Count</th>
                         </tr>
         `;
-        for (const [word, count] of Object.entries(value.wordCount)) {
+        value.wordCount.forEach(([word, count]) => {
             html += `<tr><td>${escapeHTML(word)}</td><td>${escapeHTML(count.toString())}</td></tr>`;
-        }
+        });
         html += `</table></div></div>`;
         return html;
     }).join('');
@@ -117,9 +135,9 @@ function displayResults2(results) {
 }
 
 function displayResults3(results) {
-    const keys = Object.keys(results);
-    const columns = keys.map(key => {
-        const value = results[key];
+    const columns = results.map(item => {
+        const key = item.key;
+        const value = item.value;
         if (!value || !value.algoTimeInMs || !value.totalTimeInMs || !value.totalWords || !value.wordCount) {
             console.error(`Missing data for ${key}`);
             return '';
@@ -128,19 +146,19 @@ function displayResults3(results) {
         let html = `
             <div class="result-column">
                 <button class="toggle-button" aria-expanded="false">${escapeHTML(key)}</button>
-                <div class="result-content" style="display: none;">
-                    <p>Algorithm Time: ${escapeHTML(value.algoTimeInMs.toString())} ms</p>
-                    <p>Total Time Taken: ${escapeHTML(value.totalTimeInMs.toString())} ms</p>
-                    <p>Total Words: ${escapeHTML(value.totalWords.toString())}</p>
+                <div class="result-content" style="display: block;">
+                    <p><strong>Algorithm Time: </strong>${escapeHTML(value.algoTimeInMs.toString())} ms</p>
+                    <p><strong>Total Time Taken: </strong>${escapeHTML(value.totalTimeInMs.toString())} ms</p>
+                    <p><strong>Total Words: </strong>${escapeHTML(value.totalWords.toString())}</p>
                     <table>
                         <tr>
                             <th>Word</th>
                             <th>Count</th>
                         </tr>
         `;
-        for (const [word, count] of Object.entries(value.wordCount)) {
+        value.wordCount.forEach(([word, count]) => {
             html += `<tr><td>${escapeHTML(word)}</td><td>${escapeHTML(count.toString())}</td></tr>`;
-        }
+        });
         html += `</table></div></div>`;
         return html;
     }).join('');
