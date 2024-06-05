@@ -21,7 +21,9 @@ public class WordCounter {
             ignored = DEFAULT_IGNORE;
         }
 
-        String[] words = content.replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+        String[] words = content
+                .replaceAll("\\d+", "")
+                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
 
