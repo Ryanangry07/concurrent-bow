@@ -1,6 +1,9 @@
 package com.example.wordcounter.util;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,17 +24,22 @@ public class WordCounter {
             ignored = DEFAULT_IGNORE;
         }
 
-        String[] words = content
-                .replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}'’-]+", " ")
-                .replaceAll("--+", " ")
-                .split("\\s+");
+        String[] lines = content.split("\\r?\\n");
+        for (String line : lines) {
+            if (!line.isEmpty()) {
+                // todo: test regex
+                line = line.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+                        .replaceAll("--+", " ");
 
-        for (String word : words) {
-            word = word.toLowerCase();
-            if (!word.isEmpty() && !ignored.contains(word)) {
-                totalWordsSequential++;
-                finalWordCounts.put(word, finalWordCounts.getOrDefault(word, 0) + 1);
+                String[] words = line.split("\\s+");
+
+                for (String word : words) {
+                    word = word.toLowerCase();
+                    if (!word.isEmpty() && !ignored.contains(word)) {
+                        totalWordsSequential++;
+                        finalWordCounts.put(word, finalWordCounts.getOrDefault(word, 0) + 1);
+                    }
+                }
             }
         }
 
@@ -57,22 +65,28 @@ public class WordCounter {
             ignored = DEFAULT_IGNORE;
         }
 
-        String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}'’-]+", " ")
-                .replaceAll("--+", " ")
-                .split("\\s+");
+        String[] lines = content.split("\\r?\\n");
+        for (String line : lines) {
+            if (!line.isEmpty()) {
+                // todo: test regex
+                line = line.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
+                .replaceAll("--+", " ");
 
-        for (String word : words) {
-            word = word.toLowerCase();
+                String[] words = line.split("\\s+");
 
-            // keep the "\\u0027" unicode because browsers can parse it into an apostrophe
-            // String cleanedWord = word.toLowerCase().replace("\\u0027", "'");
+                for (String word : words) {
+                    word = word.toLowerCase();
 
-            if (!word.isEmpty() && !ignored.contains(word)) {
-                // Increment total word count for each word processed
-                totalWordsHashMap.incrementAndGet();
-                // Merge word count into the map
-                wordCount.merge(word, 1, Integer::sum);
+                    // keep the "\\u0027" unicode because browsers can parse it into an apostrophe
+                    // String cleanedWord = word.toLowerCase().replace("\\u0027", "'");
+
+                    if (!word.isEmpty() && !ignored.contains(word)) {
+                        // Increment total word count for each word processed
+                        totalWordsHashMap.incrementAndGet();
+                        // Merge word count into the map
+                        wordCount.merge(word, 1, Integer::sum);
+                    }
+                }
             }
         }
 
@@ -87,8 +101,7 @@ public class WordCounter {
         } else {
             ignored = DEFAULT_IGNORE;
         }
-        String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}'’-]+", " ")
+        String[] words = content.replaceAll("[^\\p{L}\\p{Nd}'-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
 
