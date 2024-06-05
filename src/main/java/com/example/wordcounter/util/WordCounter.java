@@ -23,7 +23,7 @@ public class WordCounter {
 
         String[] words = content
                 .replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+                .replaceAll("[^\\p{L}'’-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
 
@@ -58,7 +58,7 @@ public class WordCounter {
         }
 
         String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+                .replaceAll("[^\\p{L}'’-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
 
@@ -88,7 +88,7 @@ public class WordCounter {
             ignored = DEFAULT_IGNORE;
         }
         String[] words = content.replaceAll("\\d+", "")
-                .replaceAll("[^\\p{L}\\p{Nd}'’-]+", " ")
+                .replaceAll("[^\\p{L}'’-]+", " ")
                 .replaceAll("--+", " ")
                 .split("\\s+");
 
